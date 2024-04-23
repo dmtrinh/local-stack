@@ -82,13 +82,10 @@ services:
       - ./var/redis:/bitnami/redis/data
       - ./tests/tls:/tls
 
-  # Only RedisInsight 1.x is available as a container image; still a useful
-  # tool for local development.  For more advanced functionality, grab the 
-  # latest distribution at https://github.com/RedisInsight/RedisInsight
   redisinsight:
-    image: redislabs/redisinsight:latest
+    image: redis/redisinsight:latest
     ports:
-      - "8801:8001"
+      - "5540:5540"
 
 volumes:
   data: {}

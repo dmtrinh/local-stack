@@ -1,13 +1,21 @@
 # local-stack
 Config and utils to manage runtime dependencies for local development
 
+Run `docker compose up` to instantiate the stack.
+
 Components pre-configured as part of **local-stack** include:
 * [MongoDB](https://www.mongodb.com/docs/manual/)
+  * Endpoint @ localhost:27017
 * [Mongo Express](https://github.com/mongo-express/mongo-express)
+  * http://localhost:8881/
 * Kafka
+  * Endpoint @ localhost:29092
 * [Redpanda Console for Kafka](https://redpanda.com/redpanda-console-kafka-ui)
+  * http://localhost:8880/overview
 * Redis
-* Redis Insight 1.x
+  * Endpoint @ localhost:6379
+* Redis Insight
+  * http://localhost:5540/
 * [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=docker-hub) (optional, Microsoft's Azure Storage API emulator) 
 
 ## Redis
