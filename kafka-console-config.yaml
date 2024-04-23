@@ -1,0 +1,4 @@
+# https://docs.redpanda.com/current/reference/console/config/
+kafka:
+  brokers:
+    - kafka:9092

@@ -1,0 +1,97 @@
+version: "3.8"
+services:
+  mongo:
+    # See https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/upgrade-version
+    # to determine the latest compatible MongoDB version to use with Azure Cosmos DB
+    image: mongo:4.2
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ./var/mongo/data-db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    restart: unless-stopped
+    healthcheck:
+      # NOTE: will need to switch to mongosh when using MongoDB v6+
+      test: echo 'db.runCommand("ping").ok' | mongo admin -u $$MONGO_INITDB_ROOT_USERNAME -p $$MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
+      interval: 20s
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    container_name: mongo-express
+    ports:
+      - "8881:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  # https://docs.confluent.io/platform/current/installation/docker/config-reference.html#confluent-local-example
+  kafka:
+    image: confluentinc/confluent-local:latest
+    container_name: kafka
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092,PLAINTEXT_HOST://kafka:9092
+      KAFKA_REST_SCHEMA_REGISTRY_URL: http://localhost:8081
+    ports:
+      - 29092:29092
+    restart: unless-stopped
+    volumes:
+      - ./var/kafka:/tmp/kraft-combined-logs
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server 127.0.0.1:9092 --list"]
+      interval: 20s
+
+  # https://docs.redpanda.com/current/reference/console/config/
+  kafka-console:
+    image: redpandadata/console:latest
+    restart: on-failure
+    volumes:
+      - ./kafka-console-config.yaml:/etc/kafka-console-config.yaml
+    ports:
+      - "8880:8080"
+    environment:
+      CONFIG_FILEPATH: /etc/kafka-console-config.yaml
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  # See https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-how-to-upgrade
+  # to determine the latest compatible Redis version to use with Azure Cache
+  redis:
+    image: bitnami/redis:6.2
+    container_name: redis
+    environment:
+      - REDIS_PASSWORD=password
+      - REDIS_TLS_CERT_FILE=/tls/redis.crt
+      - REDIS_TLS_KEY_FILE=/tls/redis.key
+      - REDIS_TLS_CA_FILE=/tls/ca.crt
+      - REDIS_TLS_ENABLED=yes
+      - REDIS_TLS_PORT=6380
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+      - "6380:6380"
+    volumes:
+      - ./var/redis:/bitnami/redis/data
+      - ./tests/tls:/tls
+
+  # Only RedisInsight 1.x is available as a container image; still a useful
+  # tool for local development.  For more advanced functionality, grab the 
+  # latest distribution at https://github.com/RedisInsight/RedisInsight
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - "8801:8001"
+
+volumes:
+  data: {}
+networks:
+  default:
+    name: local-stack-network
