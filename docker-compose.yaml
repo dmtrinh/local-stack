@@ -86,6 +86,8 @@ services:
     image: redis/redisinsight:latest
     ports:
       - "5540:5540"
+    volumes:
+      - ./var/redisinsight:/data
 
 volumes:
   data: {}
