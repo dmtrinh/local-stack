@@ -89,6 +89,11 @@ services:
     volumes:
       - ./var/redisinsight:/data
 
+  zipkin:
+    image: 'openzipkin/zipkin:latest'
+    ports:
+      - 9411:9411
+
 volumes:
   data: {}
 networks:
