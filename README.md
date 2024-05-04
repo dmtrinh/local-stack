@@ -24,7 +24,7 @@ Components pre-configured as part of main stack include:
 ### PostgreSQL and pgAdmin
 To add [PostgreSQL](https://www.postgresql.org/) and [pgAdmin](https://www.pgadmin.org/) to the stack:
 ```
-docker compose -f docker-postgres-compose.yaml
+docker compose -f docker-postgres-compose.yaml up
 ```
 * PostgreSQL Endpoint @ localhost:15432
 * pgAdmin Endpoint @ http://localhost:15433/
@@ -34,14 +34,14 @@ docker compose -f docker-postgres-compose.yaml
 
 [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=docker-hub) is an open-source emulator for Azure Blob, Queue Storage, and Table Storage APIs.  To add Azurite to the stack:
 ```
-docker compose -f docker-azure-compose.yaml
+docker compose -f docker-azure-compose.yaml up
 ```
 
 ### AWS LocalStack
 
 [LocalStack](https://github.com/localstack/localstack) is an open-source emulator for AWS.  To add LocalStack to the stack:
 ```
-docker compose -f docker-aws-compose.yaml
+docker compose -f docker-aws-compose.yaml up
 ```
 
 ## Redis
