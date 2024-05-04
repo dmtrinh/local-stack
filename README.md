@@ -1,22 +1,48 @@
 # local-stack
 Config and utils to manage runtime dependencies for local development
 
-Run `docker compose up` to instantiate the stack.
+To instantiate the main stack:
+```
+docker compose up
+```
 
-Components pre-configured as part of **local-stack** include:
+Components pre-configured as part of main stack include:
 * [MongoDB](https://www.mongodb.com/docs/manual/)
   * Endpoint @ localhost:27017
 * [Mongo Express](https://github.com/mongo-express/mongo-express)
   * http://localhost:8881/
-* Kafka
+* [Kafka](https://kafka.apache.org/)
   * Endpoint @ localhost:29092
 * [Redpanda Console for Kafka](https://redpanda.com/redpanda-console-kafka-ui)
   * http://localhost:8880/overview
-* Redis
+* [Redis](https://redis.io/)
   * Endpoint @ localhost:6379
-* Redis Insight
+* [Redis Insight](https://redis.io/insight/)
   * http://localhost:5540/
-* [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=docker-hub) (optional, Microsoft's Azure Storage API emulator) 
+
+## Optional components
+### PostgreSQL and pgAdmin
+To add [PostgreSQL](https://www.postgresql.org/) and [pgAdmin](https://www.pgadmin.org/) to the stack:
+```
+docker compose -f docker-postgres-compose.yaml
+```
+* PostgreSQL Endpoint @ localhost:15432
+* pgAdmin Endpoint @ http://localhost:15433/
+  * login:  `me@local.org`,  password:  `password`
+
+### Azurite
+
+[Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=docker-hub) is an open-source emulator for Azure Blob, Queue Storage, and Table Storage APIs.  To add Azurite to the stack:
+```
+docker compose -f docker-azure-compose.yaml
+```
+
+### AWS LocalStack
+
+[LocalStack](https://github.com/localstack/localstack) is an open-source emulator for AWS.  To add LocalStack to the stack:
+```
+docker compose -f docker-aws-compose.yaml
+```
 
 ## Redis
 To configure TLS locally, use [gen-test-certs.sh](gen-test-certs.sh) to generate self-signed certificates.

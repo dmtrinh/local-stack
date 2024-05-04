@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  postgres:
+    # https://github.com/docker-library/docs/tree/master/postgres
+    image: postgres:16
+    ports:
+      - 15432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./var/postgres-data/:/var/lib/postgresql/data/
+  
+  pgadmin:
+    # See https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+    image: dpage/pgadmin4
+    ports:
+      - 15433:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=me@local.org
+      - PGADMIN_DEFAULT_PASSWORD=password
+    depends_on:
+      - postgres
+    volumes:
+      - ./var/pgadmin-data/:/var/lib/pgadmin/
+networks:
+  default:
+    name: local-stack-network
