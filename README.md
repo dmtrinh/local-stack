@@ -19,6 +19,8 @@ Components pre-configured as part of main stack include:
   * Endpoint @ localhost:6379
 * [Redis Insight](https://redis.io/insight/)
   * http://localhost:5540/
+* [Zipkin](https://zipkin.io/pages/quickstart.html)
+  * http://localhost:9411
 
 ## Optional components
 ### PostgreSQL and pgAdmin
