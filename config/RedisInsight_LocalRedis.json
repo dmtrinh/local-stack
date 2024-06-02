@@ -1,0 +1,24 @@
+[
+  {
+    "compressor": "NONE",
+    "id": "219b454b-6c73-49b2-8253-82719665497f",
+    "host": "redis",
+    "port": 6379,
+    "name": "Local Redis",
+    "db": 0,
+    "username": null,
+    "password": "password",
+    "connectionType": "STANDALONE",
+    "nameFromProvider": null,
+    "provider": "UNKNOWN",
+    "lastConnection": "2024-06-02T02:53:22.361Z",
+    "modules": [],
+    "tls": null,
+    "tlsServername": null,
+    "verifyServerCert": null,
+    "caCert": null,
+    "clientCert": null,
+    "ssh": null,
+    "sshOptions": null
+  }
+]

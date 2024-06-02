@@ -19,8 +19,6 @@ Components pre-configured as part of main stack include:
   * Endpoint @ localhost:6379
 * [Redis Insight](https://redis.io/insight/)
   * http://localhost:5540/
-* [Zipkin](https://zipkin.io/pages/quickstart.html)
-  * http://localhost:9411
 
 ## Optional components
 ### PostgreSQL and pgAdmin
@@ -31,6 +29,14 @@ docker compose -f docker-postgres-compose.yaml up
 * PostgreSQL Endpoint @ localhost:15432
 * pgAdmin Endpoint @ http://localhost:15433/
   * login:  `me@local.org`,  password:  `password`
+
+### OpenTelemetry and Observability
+To add OpenTelemetry Collector and tools to support observability (o11y):
+```
+docker compose -f docker-o11y-compose.yaml up
+```
+* [Zipkin](https://zipkin.io/pages/quickstart.html)
+  * http://localhost:9411
 
 ### Azurite
 
@@ -49,6 +55,9 @@ docker compose -f docker-aws-compose.yaml up
 ## Redis
 To configure TLS locally, use [gen-test-certs.sh](gen-test-certs.sh) to generate self-signed certificates.
 The latest version of this script can be found in [Redis' repo](https://github.com/redis/redis/blob/unstable/utils/gen-test-certs.sh)
+
+### RedisInsight configuration
+<img src="resources/RedisInsight_config.png" width="75%" height="75%" alt="Basic config"/>
 
 ### Using RedisInsight to connect to a TLS-enabled Redis instance
 <img src="resources/RedisInsight_TLS_config_01.png" width="75%" height="75%" alt="Basic config"/>
